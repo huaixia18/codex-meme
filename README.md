@@ -85,6 +85,26 @@ manifest 示例见 [`templates/manifest.example.json`](templates/manifest.exampl
 | `log` | `true` | 只记录本地事件元数据，不记录提示词正文 |
 | `max_sessions` | `40` | 本地状态最多保留的会话数 |
 
+## 调整触发频率
+
+`probability` 不是固定值，可以在 `0.0` 到 `1.0` 之间调整：`0.20` 表示符合条件的普通回合有 20% 概率提供候选，`0.50` 表示 50%，`1.0` 表示每个符合条件且不在冷却期的普通回合都提供候选。设为 `0.0` 会关闭随机触发，但明确点播和有效的连续追图仍然可用。
+
+实际出现频率还会受到 `warmup_turns`、`cooldown_turns` 和严肃话题等本地拦截规则影响，因此通常低于单独看到的概率值。明确点播和有效的连续追图会绕过概率、预热和冷却。
+
+安装时可以直接在安装提示词后追加一句：
+
+```text
+把普通回合的随机触发概率设为 0.35，其他默认配置保持不变。
+```
+
+安装后也不需要重装。把下面这段交给编码 Agent，其中 `0.35` 可以换成你想要的值：
+
+```text
+请先备份我已安装的 Codex Meme 配置，再把
+~/.codex/hooks/codex-meme/reaction.json 中的 probability 改为 0.35。
+请使用 JSON 解析修改，保留其他所有字段，验证完成后告诉我备份位置和实际生效值。
+```
+
 ## 卸载
 
 让 Agent 读取 [`UNINSTALL_FOR_AGENT.md`](UNINSTALL_FOR_AGENT.md)。卸载规范只移除 Codex Meme 自己的 Handler 和安装目录，不删除外部素材，也不碰其他 Hook。

@@ -85,6 +85,26 @@ See [`templates/manifest.example.json`](templates/manifest.example.json).
 | `log` | `true` | Local event metadata only; prompt text is not logged |
 | `max_sessions` | `40` | Maximum session states retained locally |
 
+## Adjusting the reaction frequency
+
+`probability` is configurable from `0.0` to `1.0`. A value of `0.20` means a 20% offer chance on eligible normal turns, `0.50` means 50%, and `1.0` offers candidates on every eligible normal turn outside cooldown. Setting it to `0.0` disables random offers while direct requests and valid follow-ups continue to work.
+
+The effective frequency is also reduced by `warmup_turns`, `cooldown_turns`, and local guards such as serious-topic detection. Direct requests and valid follow-ups bypass probability, warmup, and cooldown.
+
+To customize it during installation, append a sentence like this to the installation prompt:
+
+```text
+Set the random offer probability for normal turns to 0.35 and keep the other defaults unchanged.
+```
+
+You do not need to reinstall when changing it later. Give the following prompt to a coding agent, replacing `0.35` with the value you want:
+
+```text
+Back up my installed Codex Meme configuration, then change probability to 0.35 in
+~/.codex/hooks/codex-meme/reaction.json.
+Parse and update the file as JSON, preserve every other field, validate it, and report the backup path and effective value.
+```
+
 ## Uninstall
 
 Ask the agent to read [`UNINSTALL_FOR_AGENT.md`](UNINSTALL_FOR_AGENT.md). The uninstall contract removes only Codex Meme handlers and its isolated install directory. External assets and unrelated hooks remain untouched.
