@@ -1,0 +1,23 @@
+[
+  {
+    "id": "01",
+    "path": "D:/memes/example-01.jpg",
+    "label": "celebration / 庆祝",
+    "tags": ["celebration", "庆祝"],
+    "enabled": true
+  },
+  {
+    "id": "02",
+    "path": "D:/memes/example-02.gif",
+    "label": "speechless / 无语",
+    "tags": ["speechless", "无语"],
+    "enabled": true
+  },
+  {
+    "id": "03",
+    "path": "D:/memes/example-03.png",
+    "label": "finally done / 搞定",
+    "tags": ["done", "搞定"],
+    "enabled": true
+  }
+]

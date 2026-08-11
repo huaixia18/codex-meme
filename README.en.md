@@ -1,0 +1,89 @@
+# Codex Meme
+
+[中文](README.md)
+
+A local, context-aware meme reaction layer for Codex Desktop.
+
+Codex Meme is a fully local community project built from three Codex hooks: `SessionStart`, `UserPromptSubmit`, and `Stop`. It occasionally lets Codex choose one image from the user's own collection without changing the normal answer. The model may use a candidate or decline all candidates when the moment is not appropriate.
+
+> Current release: `v0.1-alpha` · Windows · Codex Desktop · Python 3.10+
+
+## What it does
+
+- Randomly offers 3 candidates after warmup, cooldown, and probability checks.
+- Direct requests such as “send me a meme” bypass probability and cooldown.
+- Follow-ups such as “another one” work only after an image was actually shown.
+- GIF requests only draw from enabled GIF assets.
+- Serious topics, no-image requests, and strict JSON/code/patch formats are blocked locally.
+- The Stop hook records legal use, declines, and use of assets outside the current offer.
+
+## What it does not do
+
+- It does not generate, download, or bundle meme assets.
+- It does not upload prompts, images, logs, or analytics.
+- It has no network service, MCP server, account, or external API.
+- It never creates, reads, or modifies `AGENTS.md`.
+- It never scans asset directories at runtime. Only explicit `manifest.json` entries are eligible.
+
+## Architecture
+
+```text
+SessionStart       injects a short, low-priority behavior rule
+UserPromptSubmit   decides locally whether to offer 3 candidates
+Stop               audits candidate use and updates follow-up state
+```
+
+When no offer is made, the UserPromptSubmit hook adds no meme candidate context to the model. State and logs stay in the local Codex user directory.
+
+## Install with an agent
+
+Give this repository to a trusted coding agent and send:
+
+```text
+Read INSTALL_FOR_AGENT.md in this repository and install Codex Meme exactly as specified.
+Preserve every existing hook and do not create or modify any AGENTS.md file.
+Back up affected files before editing, run the verification steps, and report the backup and rollback paths.
+```
+
+The agent will ask for a local asset directory, create an explicit manifest, and merge the three handlers into the user-level `~/.codex/hooks.json`. Codex requires the user to review and trust new or changed hook definitions. The agent must never fabricate hook trust records.
+
+Official reference: [OpenAI Codex Hooks](https://developers.openai.com/codex/hooks)
+
+## Asset requirements
+
+- At least 3 valid assets.
+- Supported extensions: `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`.
+- Directed GIF requests require at least 3 enabled GIF files.
+- Every item needs a unique `id`, absolute path, and concise `label`.
+- Users are responsible for asset rights. This repository contains no images.
+
+See [`templates/manifest.example.json`](templates/manifest.example.json).
+
+## Defaults
+
+| Setting | Default | Meaning |
+| --- | ---: | --- |
+| `probability` | `0.20` | Offer probability on eligible normal turns |
+| `cooldown_turns` | `5` | Normal-turn cooldown after an offer |
+| `warmup_turns` | `2` | No random offers on the first two turns |
+| `log` | `true` | Local event metadata only; prompt text is not logged |
+| `max_sessions` | `40` | Maximum session states retained locally |
+
+## Uninstall
+
+Ask the agent to read [`UNINSTALL_FOR_AGENT.md`](UNINSTALL_FOR_AGENT.md). The uninstall contract removes only Codex Meme handlers and its isolated install directory. External assets and unrelated hooks remain untouched.
+
+## Development
+
+```powershell
+py -3 -m py_compile hooks\reaction.py hooks\session_start.py hooks\stop.py
+py -3 -m unittest discover -s tests -v
+```
+
+The project uses only the Python standard library.
+
+## License and status
+
+Code is licensed under the [MIT License](LICENSE). User-provided assets are not covered by this license.
+
+Codex Meme is an unofficial community project and is not affiliated with or endorsed by OpenAI.

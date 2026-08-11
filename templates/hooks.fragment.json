@@ -1,0 +1,39 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{{PYTHON_COMMAND}} \"{{INSTALL_DIR}}/session_start.py\"",
+            "timeout": 5,
+            "additionalContextLimit": 600
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{{PYTHON_COMMAND}} \"{{INSTALL_DIR}}/reaction.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "{{PYTHON_COMMAND}} \"{{INSTALL_DIR}}/stop.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "probability": 0.2,
+  "cooldown_turns": 5,
+  "warmup_turns": 2,
+  "asset_roots": [],
+  "log": true,
+  "max_sessions": 40
+}
