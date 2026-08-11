@@ -3,7 +3,10 @@ __pycache__/
 .coverage
 .pytest_cache/
 .reaction_state.json
+.remote_manifest.json
+.remote_state.json
 reaction.log
+remote-cache/
 *.bak
 *.tmp
 .tmp-install-test/

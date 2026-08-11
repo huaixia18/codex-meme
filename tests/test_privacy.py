@@ -6,7 +6,13 @@ from common import ROOT
 
 class PrivacyTests(unittest.TestCase):
     def test_repository_contains_no_private_runtime_artifacts(self):
-        forbidden_names = {"reaction.log", ".reaction_state.json", "manifest.json"}
+        forbidden_names = {
+            "reaction.log",
+            ".reaction_state.json",
+            ".remote_manifest.json",
+            ".remote_state.json",
+            "manifest.json",
+        }
         allowed_documentation_images = {
             "docs/images/demo-direct-request.jpg",
             "docs/images/demo-gif-request.webp",
@@ -45,10 +51,18 @@ class PrivacyTests(unittest.TestCase):
                     matches.append((path.relative_to(ROOT).as_posix(), value))
         self.assertEqual([], matches)
 
-    def test_hooks_have_no_network_dependencies(self):
-        combined = "\n".join(path.read_text(encoding="utf-8") for path in (ROOT / "hooks").glob("*.py"))
+    def test_response_hooks_have_no_network_dependencies(self):
+        combined = "\n".join(
+            (ROOT / "hooks" / name).read_text(encoding="utf-8")
+            for name in ("reaction.py", "session_start.py", "stop.py")
+        )
         for module in ["requests", "urllib", "http.client", "socket"]:
             self.assertNotIn("import " + module, combined)
+
+    def test_remote_sync_uses_only_the_standard_library_for_networking(self):
+        text = (ROOT / "hooks" / "sync_remote.py").read_text(encoding="utf-8")
+        self.assertNotIn("import requests", text)
+        self.assertIn("urllib", text)
 
 
 if __name__ == "__main__":

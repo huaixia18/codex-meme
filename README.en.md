@@ -2,11 +2,11 @@
 
 [中文](README.md)
 
-A local, context-aware meme reaction layer for Codex Desktop.
+A context-aware meme reaction layer for Codex Desktop.
 
-Codex Meme is a fully local community project built from three Codex hooks: `SessionStart`, `UserPromptSubmit`, and `Stop`. It occasionally lets Codex choose one image from the user's own collection without changing the normal answer. The model may use a candidate or decline all candidates when the moment is not appropriate.
+Codex Meme is a local-first community project built around `SessionStart`, `UserPromptSubmit`, and `Stop` hooks. It occasionally lets Codex choose one image from a local collection or a verified remote cache without changing the normal answer. The model may use a candidate or decline all candidates when the moment is not appropriate.
 
-> Current release: [`v0.1-alpha`](https://github.com/xxH7r/codex-meme/releases/tag/v0.1-alpha) · Windows · Codex Desktop · Python 3.10+
+> This development branch is based on [`v0.1-alpha`](https://github.com/xxH7r/codex-meme/releases/tag/v0.1-alpha) and adds optional remote-manifest sync · Windows · Codex Desktop · Python 3.10+
 
 ## Demo
 
@@ -29,38 +29,40 @@ Directed GIF request: requests such as “send me a GIF” draw only from enable
 - Follow-ups such as “another one” work only after an image was actually shown.
 - GIF requests only draw from enabled GIF assets.
 - Serious topics, no-image requests, and strict JSON/code/patch formats are blocked locally.
+- An optional startup handler can sync an explicit HTTPS manifest into a verified local cache.
 - The Stop hook audits use, declines, and assets outside the current offer while updating follow-up state; optional logs can retain these diagnostic events.
 
 ## What it does not do
 
-- The runtime does not generate or download images, and this repository bundles no meme assets for hook use.
+- It does not generate images, and this repository bundles no meme assets for hook use.
 - It does not upload prompts, images, logs, or analytics.
-- The runtime uses no network service, MCP server, account, or external API.
+- Normal replies, selection, and Stop hooks never use the network; only the explicitly enabled sync handler contacts allowlisted HTTPS hosts.
+- It does not use MCP, accounts, or a third-party search API to find images dynamically.
 - It never creates, reads, or modifies `AGENTS.md`.
-- It never scans asset directories at runtime. Only explicit `manifest.json` entries are eligible.
+- It never scans asset directories. Only explicit local or remote manifest entries are eligible.
 
 ## Architecture
 
 ```text
-SessionStart       injects a short, low-priority behavior rule
+SessionStart       concurrently runs optional sync and behavior-rule injection
 UserPromptSubmit   decides locally whether to offer 3 candidates
 Stop               audits candidate use and updates follow-up state
 ```
 
-When no offer is made, the UserPromptSubmit hook adds no meme candidate context to the model. State and logs stay in the local Codex user directory.
+Remote sync validates HTTPS hosts, response sizes, image types, and SHA-256 before writing to the local cache. A failed or offline refresh preserves the last successful cache. When no offer is made, the UserPromptSubmit hook adds no meme candidate context to the model. Cache, state, and logs stay in the local Codex user directory.
 
 ## Install with an agent
 
 Give this repository to a trusted coding agent and send:
 
 ```text
-Get Codex Meme v0.1-alpha from https://github.com/xxH7r/codex-meme,
+Get Codex Meme from https://github.com/huaixia18/codex-meme,
 read INSTALL_FOR_AGENT.md in the repository, and install it exactly as specified.
 Preserve every existing hook and do not create or modify any AGENTS.md file.
 Back up affected files before editing, run the verification steps, and report the backup and rollback paths.
 ```
 
-The agent will ask whether to use an existing local asset directory or, with your explicit approval, obtain assets from [ChineseBQB](https://github.com/zhaoolee/ChineseBQB). It then inspects only the directory you approve, creates an explicit manifest, and merges the three handlers into the user-level `~/.codex/hooks.json`. Codex requires the user to review and trust new or changed hook definitions. The agent must never fabricate hook trust records.
+The agent will ask whether to use an existing local asset directory, configure an HTTPS remote manifest, or obtain assets from [ChineseBQB](https://github.com/zhaoolee/ChineseBQB) with your explicit approval. Local mode inspects only the approved directory; remote mode contacts only the approved manifest and exact host allowlist. It then merges four handlers into the user-level `~/.codex/hooks.json`. Codex requires the user to review and trust new or changed hook definitions. The agent must never fabricate hook trust records.
 
 Official reference: [OpenAI Codex Hooks](https://developers.openai.com/codex/hooks)
 
@@ -80,6 +82,27 @@ Let the installation agent generate and validate the manifest when possible. Fol
 
 See [`templates/manifest.example.json`](templates/manifest.example.json).
 
+## Remote asset manifests
+
+Remote mode is disabled by default. When enabled, `sync_remote.py` checks for updates only on `SessionStart`; `reaction.py` still reads local files and never performs a just-in-time network request while answering.
+
+Configure `reaction.json` like this:
+
+```json
+{
+  "remote": {
+    "enabled": true,
+    "manifest_url": "https://cdn.example.com/memes/manifest.json",
+    "allowed_hosts": ["cdn.example.com"],
+    "refresh_hours": 24
+  }
+}
+```
+
+Every remote item requires an `id`, HTTPS `url`, lowercase 64-character `sha256`, `label`, and `enabled`. The manifest, images, and final redirect targets must use exact `allowed_hosts`. IP literals, private destinations, non-HTTPS URLs, oversized responses, mismatched content types, and hash failures are rejected. See [`templates/remote-manifest.example.json`](templates/remote-manifest.example.json) for the full shape; its domains and hashes are placeholders that must be replaced.
+
+Successful sync writes an internal `.remote_manifest.json` and stores images under `remote-cache/`. A failed sync never replaces the previous successful result, and retries back off for 15 minutes by default. Enabling remote mode exposes ordinary HTTPS request metadata, such as IP address and User-Agent, to the manifest and image hosts. The manifest operator remains responsible for asset rights and hosting costs.
+
 ## Defaults
 
 | Setting | Default | Meaning |
@@ -87,6 +110,8 @@ See [`templates/manifest.example.json`](templates/manifest.example.json).
 | `probability` | `0.20` | Offer probability on eligible normal turns |
 | `cooldown_turns` | `5` | Normal-turn cooldown after an offer |
 | `warmup_turns` | `2` | No random offers on the first two turns |
+| `remote.enabled` | `false` | Enable remote-manifest synchronization |
+| `remote.refresh_hours` | `24` | Refresh interval after a successful sync |
 | `log` | `true` | Optional local diagnostic log, enabled by default |
 | `max_sessions` | `40` | Maximum session states retained locally |
 
@@ -124,12 +149,12 @@ Ask the agent to read [`UNINSTALL_FOR_AGENT.md`](UNINSTALL_FOR_AGENT.md). The un
 
 ## Feedback and contributions
 
-For bugs, feature ideas, or code contributions, open a [GitHub Issue](https://github.com/xxH7r/codex-meme/issues) or Pull Request. Include your Windows, Python, and Codex versions when reporting a problem, but do not upload private prompts, images, logs, or local paths.
+For bugs, feature ideas, or code contributions, open a [GitHub Issue](https://github.com/huaixia18/codex-meme/issues) or Pull Request. Include your Windows, Python, and Codex versions when reporting a problem, but do not upload private prompts, images, logs, or local paths.
 
 ## Development
 
 ```powershell
-py -3 -m py_compile hooks\reaction.py hooks\session_start.py hooks\stop.py
+py -3 -m py_compile hooks\reaction.py hooks\session_start.py hooks\stop.py hooks\sync_remote.py
 py -3 -m unittest discover -s tests -v
 ```
 

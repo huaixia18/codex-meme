@@ -101,17 +101,30 @@ class RuntimeDecisionTests(unittest.TestCase):
     def test_default_config_is_portable_and_bounded(self):
         self.assertEqual(0.2, reaction.DEFAULTS["probability"])
         self.assertEqual([], reaction.DEFAULTS["asset_roots"])
+        self.assertFalse(reaction.DEFAULTS["remote"]["enabled"])
         with RuntimeSandbox(config_overrides={
             "probability": 4,
             "cooldown_turns": -2,
             "warmup_turns": "bad",
             "max_sessions": 0,
+            "remote": {
+                "enabled": True,
+                "allowed_hosts": [" CDN.EXAMPLE.COM ", ""],
+                "timeout_seconds": 999,
+                "max_asset_bytes": 1,
+                "max_assets": 9999,
+            },
         }):
             cfg = reaction.load_config()
             self.assertEqual(1.0, cfg["probability"])
             self.assertEqual(0, cfg["cooldown_turns"])
             self.assertEqual(2, cfg["warmup_turns"])
             self.assertEqual(1, cfg["max_sessions"])
+            self.assertTrue(cfg["remote"]["enabled"])
+            self.assertEqual(["cdn.example.com"], cfg["remote"]["allowed_hosts"])
+            self.assertEqual(30, cfg["remote"]["timeout_seconds"])
+            self.assertEqual(1024, cfg["remote"]["max_asset_bytes"])
+            self.assertEqual(500, cfg["remote"]["max_assets"])
 
     def test_warmup_probability_offer_and_cooldown(self):
         with RuntimeSandbox() as sandbox:

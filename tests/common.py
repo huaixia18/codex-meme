@@ -74,7 +74,7 @@ class RuntimeSandbox:
             path.write_bytes(b"test")
             manifest.append({
                 "id": asset_id,
-                "path": path.as_posix(),
+                "path": path.resolve().as_posix(),
                 "label": label,
                 "enabled": True,
             })

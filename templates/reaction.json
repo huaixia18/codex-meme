@@ -4,6 +4,17 @@
   "cooldown_turns": 5,
   "warmup_turns": 2,
   "asset_roots": [],
+  "remote": {
+    "enabled": false,
+    "manifest_url": "",
+    "allowed_hosts": [],
+    "refresh_hours": 24,
+    "retry_minutes": 15,
+    "timeout_seconds": 10,
+    "max_manifest_bytes": 262144,
+    "max_asset_bytes": 8388608,
+    "max_assets": 100
+  },
   "log": true,
   "max_sessions": 40
 }

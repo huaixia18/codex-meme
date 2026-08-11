@@ -49,7 +49,7 @@ def merge_fragment(document, fragment):
 
 
 class InstallContractTests(unittest.TestCase):
-    def test_fragment_is_valid_and_contains_three_handlers(self):
+    def test_fragment_is_valid_and_contains_four_handlers(self):
         fragment = render_fragment()
         self.assertEqual({"SessionStart", "UserPromptSubmit", "Stop"}, set(fragment["hooks"]))
         commands = [
@@ -58,7 +58,7 @@ class InstallContractTests(unittest.TestCase):
             for group in groups
             for handler in group["hooks"]
         ]
-        self.assertEqual(3, len(commands))
+        self.assertEqual(4, len(commands))
         self.assertTrue(all("/codex-meme/" in command for command in commands))
 
     def test_install_update_and_uninstall_preserve_unrelated_hooks(self):
@@ -83,7 +83,7 @@ class InstallContractTests(unittest.TestCase):
             for group in groups
             for handler in group.get("hooks", [])
         ]
-        self.assertEqual(3, sum("/codex-meme/" in command for command in commands))
+        self.assertEqual(4, sum("/codex-meme/" in command for command in commands))
         self.assertIn("sh C:/tools/context.sh", commands)
         self.assertIn("python C:/tools/audit.py", commands)
         self.assertEqual({"keep": True}, updated["custom"])
@@ -116,7 +116,7 @@ class InstallContractTests(unittest.TestCase):
             }
             hooks_file.write_text(json.dumps(existing), encoding="utf-8")
 
-            for filename in ("reaction.py", "session_start.py", "stop.py"):
+            for filename in ("reaction.py", "session_start.py", "stop.py", "sync_remote.py"):
                 shutil.copy2(ROOT / "hooks" / filename, install_dir / filename)
 
             manifest = []
@@ -148,7 +148,7 @@ class InstallContractTests(unittest.TestCase):
                 for group in groups
                 for handler in group.get("hooks", [])
             ]
-            self.assertEqual(3, sum("/codex-meme/" in command for command in commands))
+            self.assertEqual(4, sum("/codex-meme/" in command for command in commands))
             self.assertIn("sh C:/tools/context.sh", commands)
 
             startup = subprocess.run(
@@ -160,6 +160,14 @@ class InstallContractTests(unittest.TestCase):
             )
             startup_payload = json.loads(startup.stdout)
             self.assertEqual("SessionStart", startup_payload["hookSpecificOutput"]["hookEventName"])
+
+            sync = subprocess.run(
+                [sys.executable, str(install_dir / "sync_remote.py")],
+                text=True,
+                capture_output=True,
+                check=True,
+            )
+            self.assertEqual({}, json.loads(sync.stdout))
 
             direct = subprocess.run(
                 [sys.executable, str(install_dir / "reaction.py")],

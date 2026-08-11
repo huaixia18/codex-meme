@@ -6,6 +6,11 @@
         "hooks": [
           {
             "type": "command",
+            "command": "{{PYTHON_COMMAND}} \"{{INSTALL_DIR}}/sync_remote.py\"",
+            "timeout": 60
+          },
+          {
+            "type": "command",
             "command": "{{PYTHON_COMMAND}} \"{{INSTALL_DIR}}/session_start.py\"",
             "timeout": 5,
             "additionalContextLimit": 600

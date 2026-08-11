@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "remote-01",
+      "url": "https://cdn.example.com/memes/example-01.jpg",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "label": "celebration / 庆祝",
+      "enabled": true
+    },
+    {
+      "id": "remote-02",
+      "url": "https://cdn.example.com/memes/example-02.gif",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "label": "speechless / 无语",
+      "enabled": true
+    },
+    {
+      "id": "remote-03",
+      "url": "https://cdn.example.com/memes/example-03.png",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "label": "finally done / 搞定",
+      "enabled": true
+    }
+  ]
+}

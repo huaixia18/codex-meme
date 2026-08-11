@@ -30,6 +30,8 @@ configure_utf8_stdio()
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONFIG_PATH = os.path.join(HERE, "reaction.json")
 MANIFEST_PATH = os.path.join(HERE, "manifest.json")
+REMOTE_MANIFEST_PATH = os.path.join(HERE, ".remote_manifest.json")
+REMOTE_CACHE_DIR = os.path.join(HERE, "remote-cache")
 STATE_PATH = os.path.join(HERE, ".reaction_state.json")
 LOG_PATH = os.path.join(HERE, "reaction.log")
 LOG_MAX_BYTES = 2 * 1024 * 1024
@@ -37,6 +39,18 @@ PROTOCOL_VERSION = "codex-meme/0.1"
 STATE_VERSION = 2
 NO_HIT = -(10 ** 6)
 ASSET_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
+
+REMOTE_DEFAULTS = {
+    "enabled": False,
+    "manifest_url": "",
+    "allowed_hosts": [],
+    "refresh_hours": 24,
+    "retry_minutes": 15,
+    "timeout_seconds": 10,
+    "max_manifest_bytes": 262144,
+    "max_asset_bytes": 8388608,
+    "max_assets": 100,
+}
 
 DEFAULTS = {
     "enabled": True,
@@ -70,6 +84,7 @@ DEFAULTS = {
     ],
     "log": True,
     "max_sessions": 40,
+    "remote": REMOTE_DEFAULTS,
 }
 
 FORCE_PATTERN_ZH = re.compile(
@@ -210,6 +225,37 @@ def load_config():
     for key in ("asset_roots", "allowed_extensions", "skip_keywords", "skip_phrases"):
         if not isinstance(cfg.get(key), list):
             cfg[key] = list(DEFAULTS[key])
+    remote = dict(REMOTE_DEFAULTS)
+    if isinstance(cfg.get("remote"), dict):
+        remote.update(cfg["remote"])
+    remote["enabled"] = remote.get("enabled") is True
+    remote["manifest_url"] = str(remote.get("manifest_url") or "").strip()[:2048]
+    allowed_hosts = remote.get("allowed_hosts")
+    remote["allowed_hosts"] = (
+        [str(host).strip().lower() for host in allowed_hosts if str(host).strip()][:20]
+        if isinstance(allowed_hosts, list)
+        else []
+    )
+    remote["refresh_hours"] = _bounded_float(
+        remote.get("refresh_hours"), REMOTE_DEFAULTS["refresh_hours"], 0.25, 720.0
+    )
+    remote["retry_minutes"] = _bounded_int(remote.get("retry_minutes"), REMOTE_DEFAULTS["retry_minutes"], 1)
+    remote["retry_minutes"] = min(remote["retry_minutes"], 1440)
+    remote["timeout_seconds"] = _bounded_int(
+        remote.get("timeout_seconds"), REMOTE_DEFAULTS["timeout_seconds"], 1
+    )
+    remote["timeout_seconds"] = min(remote["timeout_seconds"], 30)
+    remote["max_manifest_bytes"] = _bounded_int(
+        remote.get("max_manifest_bytes"), REMOTE_DEFAULTS["max_manifest_bytes"], 1024
+    )
+    remote["max_manifest_bytes"] = min(remote["max_manifest_bytes"], 5 * 1024 * 1024)
+    remote["max_asset_bytes"] = _bounded_int(
+        remote.get("max_asset_bytes"), REMOTE_DEFAULTS["max_asset_bytes"], 1024
+    )
+    remote["max_asset_bytes"] = min(remote["max_asset_bytes"], 25 * 1024 * 1024)
+    remote["max_assets"] = _bounded_int(remote.get("max_assets"), REMOTE_DEFAULTS["max_assets"], 1)
+    remote["max_assets"] = min(remote["max_assets"], 500)
+    cfg["remote"] = remote
     return cfg
 
 
@@ -306,18 +352,21 @@ def log_event(cfg, event_name, session_id=None, turn_id=None, turn=None, **extra
 
 
 def normalized_absolute_path(path):
-    return os.path.abspath(path).replace("\\", "/")
+    return os.path.realpath(os.path.abspath(path)).replace("\\", "/")
 
 
 def path_is_allowed(path, cfg):
     try:
-        full = os.path.normcase(os.path.abspath(path))
+        full = os.path.normcase(os.path.realpath(os.path.abspath(path)))
         allowed_root = False
-        for root in cfg.get("asset_roots", []):
+        roots = list(cfg.get("asset_roots", []))
+        if cfg.get("remote", {}).get("enabled") is True:
+            roots.append(REMOTE_CACHE_DIR)
+        for root in roots:
             root_text = str(root).strip()
             if not root_text:
                 continue
-            root_full = os.path.normcase(os.path.abspath(root_text))
+            root_full = os.path.normcase(os.path.realpath(os.path.abspath(root_text)))
             try:
                 if os.path.commonpath([full, root_full]) == root_full:
                     allowed_root = True
@@ -347,9 +396,13 @@ def sanitize_label(value):
 
 def load_assets(cfg=None):
     cfg = cfg or load_config()
-    raw = load_json(MANIFEST_PATH, [])
-    if not isinstance(raw, list):
-        return []
+    manifests = [load_json(MANIFEST_PATH, [])]
+    if cfg.get("remote", {}).get("enabled") is True:
+        manifests.append(load_json(REMOTE_MANIFEST_PATH, []))
+    raw = []
+    for manifest in manifests:
+        if isinstance(manifest, list):
+            raw.extend(manifest)
     assets = []
     seen_ids = set()
     seen_paths = set()
