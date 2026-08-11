@@ -84,6 +84,12 @@ py -3 -m unittest discover -s tests -v
 
 项目只使用 Python 标准库。
 
+## 友情链接
+
+- [LinuxDo](https://linux.do)
+
+感谢 LinuxDo 社区，为我学习 AI 提供了很多帮助。
+
 ## 许可与声明
 
 代码使用 [MIT License](LICENSE)。用户素材不受本项目许可证覆盖。

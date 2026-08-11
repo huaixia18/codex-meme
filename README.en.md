@@ -84,6 +84,12 @@ py -3 -m unittest discover -s tests -v
 
 The project uses only the Python standard library.
 
+## Community links
+
+- [LinuxDo](https://linux.do)
+
+Thanks to the LinuxDo community for helping me so much in learning about AI.
+
 ## License and status
 
 Code is licensed under the [MIT License](LICENSE). User-provided assets are not covered by this license.
