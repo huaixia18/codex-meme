@@ -6,7 +6,7 @@ A local, context-aware meme reaction layer for Codex Desktop.
 
 Codex Meme is a fully local community project built from three Codex hooks: `SessionStart`, `UserPromptSubmit`, and `Stop`. It occasionally lets Codex choose one image from the user's own collection without changing the normal answer. The model may use a candidate or decline all candidates when the moment is not appropriate.
 
-> Current release: `v0.1-alpha` · Windows · Codex Desktop · Python 3.10+
+> Current release: [`v0.1-alpha`](https://github.com/xxH7r/codex-meme/releases/tag/v0.1-alpha) · Windows · Codex Desktop · Python 3.10+
 
 ## Demo
 
@@ -54,7 +54,8 @@ When no offer is made, the UserPromptSubmit hook adds no meme candidate context 
 Give this repository to a trusted coding agent and send:
 
 ```text
-Read INSTALL_FOR_AGENT.md in this repository and install Codex Meme exactly as specified.
+Get Codex Meme v0.1-alpha from https://github.com/xxH7r/codex-meme,
+read INSTALL_FOR_AGENT.md in the repository, and install it exactly as specified.
 Preserve every existing hook and do not create or modify any AGENTS.md file.
 Back up affected files before editing, run the verification steps, and report the backup and rollback paths.
 ```
@@ -108,6 +109,10 @@ Parse and update the file as JSON, preserve every other field, validate it, and 
 ## Uninstall
 
 Ask the agent to read [`UNINSTALL_FOR_AGENT.md`](UNINSTALL_FOR_AGENT.md). The uninstall contract removes only Codex Meme handlers and its isolated install directory. External assets and unrelated hooks remain untouched.
+
+## Feedback and contributions
+
+For bugs, feature ideas, or code contributions, open a [GitHub Issue](https://github.com/xxH7r/codex-meme/issues) or Pull Request. Include your Windows, Python, and Codex versions when reporting a problem, but do not upload private prompts, images, logs, or local paths.
 
 ## Development
 

@@ -6,7 +6,7 @@
 
 Codex Meme 是一个完全本地运行的社区项目。它通过 `SessionStart`、`UserPromptSubmit` 和 `Stop` 三段 Hook，在不改变正常回答的前提下，偶尔允许 Codex 从用户自己的素材中挑一张表情包。模型可以使用候选，也可以认为场合不合适并拒绝。
 
-> 当前版本：`v0.1-alpha` · Windows · Codex Desktop · Python 3.10+
+> 当前版本：[`v0.1-alpha`](https://github.com/xxH7r/codex-meme/releases/tag/v0.1-alpha) · Windows · Codex Desktop · Python 3.10+
 
 ## 效果演示
 
@@ -54,7 +54,8 @@ Stop               检查本轮是否使用了合法候选并更新连续追图�
 本项目不要求用户手工编辑 `hooks.json`。把仓库交给你信任的编码 Agent，并发送：
 
 ```text
-请读取这个仓库中的 INSTALL_FOR_AGENT.md，并按照其中的规范为我安装 Codex Meme。
+请从 https://github.com/xxH7r/codex-meme 获取 Codex Meme v0.1-alpha，
+读取仓库中的 INSTALL_FOR_AGENT.md，并按照其中的规范为我安装。
 保留我已有的所有 Hook，不要创建或修改任何 AGENTS.md。
 修改前先备份，完成后运行验证并告诉我备份和回滚位置。
 ```
@@ -108,6 +109,10 @@ manifest 示例见 [`templates/manifest.example.json`](templates/manifest.exampl
 ## 卸载
 
 让 Agent 读取 [`UNINSTALL_FOR_AGENT.md`](UNINSTALL_FOR_AGENT.md)。卸载规范只移除 Codex Meme 自己的 Handler 和安装目录，不删除外部素材，也不碰其他 Hook。
+
+## 反馈与贡献
+
+遇到问题、有功能建议或想贡献代码，可以提交 [GitHub Issue](https://github.com/xxH7r/codex-meme/issues) 或 Pull Request。报告问题时请说明 Windows、Python 和 Codex 版本，但不要上传私人提示词、图片、日志或本地路径。
 
 ## 开发与测试
 

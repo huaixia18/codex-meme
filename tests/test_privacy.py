@@ -30,6 +30,7 @@ class PrivacyTests(unittest.TestCase):
 
     def test_repository_contains_no_private_path_literals(self):
         forbidden = ["xx" + "H7r", "G:" + "/r"]
+        public_repository_url = "https://github.com/" + "xx" + "H7r/codex-meme"
         matches = []
         for path in ROOT.rglob("*"):
             if any(part in {".git", "__pycache__"} for part in path.parts) or not path.is_file():
@@ -38,6 +39,7 @@ class PrivacyTests(unittest.TestCase):
                 text = path.read_text(encoding="utf-8")
             except UnicodeDecodeError:
                 continue
+            text = text.replace(public_repository_url, "")
             for value in forbidden:
                 if value in text:
                     matches.append((path.relative_to(ROOT).as_posix(), value))
