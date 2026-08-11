@@ -92,12 +92,14 @@ manifest 示例见 [`templates/manifest.example.json`](templates/manifest.exampl
 {
   "remote": {
     "enabled": true,
-    "manifest_url": "https://cdn.example.com/memes/manifest.json",
-    "allowed_hosts": ["cdn.example.com"],
+    "manifest_url": "https://raw.githubusercontent.com/huaixia18/codex-meme/main/remote-manifest.json",
+    "allowed_hosts": ["raw.githubusercontent.com"],
     "refresh_hours": 24
   }
 }
 ```
+
+本 Fork 的 [`remote-manifest.json`](remote-manifest.json) 精选了 7 张 ChineseBQB 程序员表情，并把素材 URL 固定到已校验的上游提交。图片仍由独立第三方项目 ChineseBQB 托管，不受 Codex Meme 的 MIT License 覆盖。
 
 远程清单中的每张图片必须提供 `id`、HTTPS `url`、64 位小写 `sha256`、`label` 和 `enabled`。清单本身和图片的最终跳转地址都必须属于 `allowed_hosts`；IP 地址、内网地址、非 HTTPS 地址、超限响应、类型不匹配和哈希不一致都会被拒绝。完整格式见 [`templates/remote-manifest.example.json`](templates/remote-manifest.example.json)，其中的域名和哈希只是占位示例，使用前必须替换成真实值。
 

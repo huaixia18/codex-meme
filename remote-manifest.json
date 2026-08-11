@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "cn-bqb-exception",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/024Programmer_%E7%A8%8B%E5%BA%8F%E5%91%98BQB/%E7%A8%8B%E5%BA%8F%E5%91%9800010-%E5%AF%B9%E6%96%B9%E4%B8%8D%E6%83%B3%E5%92%8C%E4%BD%A0%E8%AF%B4%E8%AF%9D%E5%B9%B6%E5%90%91%E4%BD%A0%E6%8A%9B%E5%87%BA%E4%BA%86%E4%B8%80%E4%B8%AA%E5%BC%82%E5%B8%B8.jpg",
+      "sha256": "5b19aeabaa173b7ef2edcb94f5003165d0324683ebfa6fe1738477ffb6c15b93",
+      "label": "对方抛出了一个异常 / exception",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-really",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/024Programmer_%E7%A8%8B%E5%BA%8F%E5%91%98BQB/%E7%A8%8B%E5%BA%8F%E5%91%9800015-%E7%9C%9F%E7%9A%84%E5%81%87%E7%9A%84.jpg",
+      "sha256": "23666399470b5c4b4306c2365e64f89bd162ca8a4d98b16d7c4f99ec70ecc747",
+      "label": "真的假的 / really",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-no-fix",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/024Programmer_%E7%A8%8B%E5%BA%8F%E5%91%98BQB/%E7%A8%8B%E5%BA%8F%E5%91%9800018-%E4%BD%A0%E5%B0%B1%E6%98%AF%E6%89%93%E6%AD%BB%E6%88%91%E6%88%91%E4%B9%9F%E4%B8%8D%E6%94%B9%E8%BF%99%E4%B8%AABUG.png",
+      "sha256": "a5ad799f0bff2c074212f8e1ec700e74ac923964adf0691add232c06ea8aee67",
+      "label": "打死也不改这个 BUG / refuse to fix",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-write-code",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/024Programmer_%E7%A8%8B%E5%BA%8F%E5%91%98BQB/%E7%A8%8B%E5%BA%8F%E5%91%9800022-%E5%97%A8%E5%97%A8%E9%86%92%E9%86%92%E6%94%B9%E8%AF%A5%E5%86%99%E4%BB%A3%E7%A0%81%E4%BA%86.jpg",
+      "sha256": "db73323df157fd630181f60ad59a23f62665a875fcdbcd75125c600b0541b030",
+      "label": "醒醒，该写代码了 / time to code",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-fixing",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/024Programmer_%E7%A8%8B%E5%BA%8F%E5%91%98BQB/%E7%A8%8B%E5%BA%8F%E5%91%9800024-%E5%9C%A8%E6%94%B9.gif",
+      "sha256": "a16d145a310c4d8a305675afc1fc33c3e8a0a80b490fa554c91cb7ac07b49147",
+      "label": "在改 / fixing",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-bugs-scared",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/024Programmer_%E7%A8%8B%E5%BA%8F%E5%91%98BQB/%E7%A8%8B%E5%BA%8F%E5%91%9800045-%E5%90%93%E5%BE%97%E6%88%91%E4%BB%A3%E7%A0%81%E9%83%BD%E5%87%BABUG%E4%BA%86.gif",
+      "sha256": "d477407bf109b82079bbb3505bdb7748b84384f74a77f1b6a7454e9d5c75f539",
+      "label": "吓得程序都出 BUG 了 / bugs everywhere",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-finish-code",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/024Programmer_%E7%A8%8B%E5%BA%8F%E5%91%98BQB/%E7%A8%8B%E5%BA%8F%E5%91%9800047-%E5%88%AB%E8%B7%91%E5%9B%9E%E6%9D%A5%E6%8A%8A%E4%BB%A3%E7%A0%81%E5%86%99%E5%AE%8C.gif",
+      "sha256": "363cbad36bbbadea1376a6e99e8d18e91d9fc8c169ab38e76d8d0a91dd183697",
+      "label": "别跑，回来把代码写完 / finish the code",
+      "enabled": true
+    }
+  ]
+}
