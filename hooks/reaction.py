@@ -8,6 +8,7 @@ import random
 import re
 import secrets
 import sys
+import unicodedata
 from datetime import datetime
 
 
@@ -31,9 +32,11 @@ CONFIG_PATH = os.path.join(HERE, "reaction.json")
 MANIFEST_PATH = os.path.join(HERE, "manifest.json")
 STATE_PATH = os.path.join(HERE, ".reaction_state.json")
 LOG_PATH = os.path.join(HERE, "reaction.log")
+LOG_MAX_BYTES = 2 * 1024 * 1024
 PROTOCOL_VERSION = "codex-meme/0.1"
 STATE_VERSION = 2
 NO_HIT = -(10 ** 6)
+ASSET_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
 
 DEFAULTS = {
     "enabled": True,
@@ -294,13 +297,9 @@ def log_event(cfg, event_name, session_id=None, turn_id=None, turn=None, **extra
         if value is not None:
             record[key] = value
     try:
-        mode = "a"
-        if os.path.exists(LOG_PATH) and os.path.getsize(LOG_PATH) > 0:
-            with open(LOG_PATH, "r", encoding="utf-8", errors="ignore") as handle:
-                first = handle.read(256).lstrip()
-            if first and not first.startswith("{"):
-                mode = "w"
-        with open(LOG_PATH, mode, encoding="utf-8") as handle:
+        if os.path.exists(LOG_PATH) and os.path.getsize(LOG_PATH) >= LOG_MAX_BYTES:
+            os.replace(LOG_PATH, LOG_PATH + ".1")
+        with open(LOG_PATH, "a", encoding="utf-8") as handle:
             handle.write(json.dumps(record, ensure_ascii=False, separators=(",", ":")) + "\n")
     except Exception:
         pass
@@ -335,6 +334,17 @@ def path_is_allowed(path, cfg):
         return False
 
 
+def sanitize_label(value):
+    text = "" if value is None else str(value)
+    cleaned = []
+    for character in text:
+        if character.isspace():
+            cleaned.append(" ")
+        elif not unicodedata.category(character).startswith("C"):
+            cleaned.append(character)
+    return re.sub(r" +", " ", "".join(cleaned)).strip()[:80].rstrip()
+
+
 def load_assets(cfg=None):
     cfg = cfg or load_config()
     raw = load_json(MANIFEST_PATH, [])
@@ -346,10 +356,12 @@ def load_assets(cfg=None):
     for item in raw:
         if not isinstance(item, dict) or item.get("enabled") is False:
             continue
-        asset_id = str(item.get("id", "")).strip()
-        label = str(item.get("label", "")).strip()
-        raw_path = str(item.get("path", "")).strip()
-        if not asset_id or not label or not raw_path:
+        raw_id = item.get("id", "")
+        asset_id = "" if raw_id is None else str(raw_id).strip()
+        label = sanitize_label(item.get("label", ""))
+        raw_path_value = item.get("path", "")
+        raw_path = "" if raw_path_value is None else str(raw_path_value).strip()
+        if not ASSET_ID_PATTERN.fullmatch(asset_id) or not label or not raw_path:
             continue
         path = normalized_absolute_path(raw_path)
         if asset_id in seen_ids or path in seen_paths or not path_is_allowed(path, cfg):
@@ -385,16 +397,40 @@ def word_prompt(prompt):
     return re.sub(r"\s+", " ", text).strip()
 
 
+def ascii_rule_matches(prompt_words, rule):
+    normalized_rule = word_prompt(rule)
+    if not normalized_rule:
+        return False
+    pattern = r"(?<![A-Za-z0-9_])" + re.escape(normalized_rule) + r"(?![A-Za-z0-9_])"
+    return re.search(pattern, prompt_words) is not None
+
+
 def skip_reason(prompt, cfg):
     lowered = str(prompt or "").lower().replace("’", "'")
     compact = compact_prompt(lowered)
+    words = word_prompt(lowered)
     for keyword in cfg.get("skip_keywords", []):
-        if str(keyword).lower() in lowered:
-            return "keyword:" + str(keyword)
+        keyword_text = str(keyword).lower().strip()
+        if not keyword_text:
+            continue
+        matched = (
+            ascii_rule_matches(words, keyword_text)
+            if keyword_text.isascii()
+            else keyword_text in lowered
+        )
+        if matched:
+            return "keyword"
     for phrase in cfg.get("skip_phrases", []):
-        phrase_compact = compact_prompt(str(phrase).lower())
-        if phrase_compact and phrase_compact in compact:
-            return "phrase:" + str(phrase)
+        phrase_text = str(phrase).lower().strip()
+        if not phrase_text:
+            continue
+        if phrase_text.isascii():
+            matched = ascii_rule_matches(words, phrase_text)
+        else:
+            phrase_compact = compact_prompt(phrase_text)
+            matched = bool(phrase_compact and phrase_compact in compact)
+        if matched:
+            return "phrase"
     return None
 
 

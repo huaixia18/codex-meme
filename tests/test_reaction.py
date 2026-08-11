@@ -87,6 +87,15 @@ class PromptClassificationTests(unittest.TestCase):
             self.assertIsNotNone(reaction.skip_reason(prompt, cfg), prompt)
         self.assertIsNone(reaction.skip_reason("this is a serious performance optimization", cfg))
 
+    def test_ascii_skip_rules_preserve_words_and_mixed_language_boundaries(self):
+        cfg = reaction.load_config()
+        self.assertIsNone(reaction.skip_reason("I studied the codebase", cfg))
+        self.assertIsNone(reaction.skip_reason("decode only once", cfg))
+        self.assertEqual("keyword", reaction.skip_reason("The process died", cfg))
+        self.assertEqual("phrase", reaction.skip_reason("json only", cfg))
+        self.assertEqual("keyword", reaction.skip_reason("他died了", cfg))
+        self.assertEqual("phrase", reaction.skip_reason("请json only", cfg))
+
 
 class RuntimeDecisionTests(unittest.TestCase):
     def test_default_config_is_portable_and_bounded(self):
@@ -184,6 +193,61 @@ class RuntimeDecisionTests(unittest.TestCase):
             )
             self.assertEqual("", output)
             self.assertEqual("ERROR", sandbox.read_log()[-1]["event"])
+
+    def test_skip_logs_never_include_default_rule_text(self):
+        with RuntimeSandbox() as sandbox:
+            cfg = reaction.load_config()
+            keywords = [str(value) for value in cfg["skip_keywords"]]
+            phrases = [str(value) for value in cfg["skip_phrases"]]
+            for index, rule in enumerate(keywords + phrases, start=1):
+                output = sandbox.run_main(
+                    reaction,
+                    {
+                        "session_id": "privacy",
+                        "turn_id": str(index),
+                        "prompt": rule,
+                    },
+                )
+                self.assertEqual("", output)
+
+            entries = sandbox.read_log()
+            self.assertEqual(len(keywords) + len(phrases), len(entries))
+            self.assertEqual(
+                ["keyword"] * len(keywords) + ["phrase"] * len(phrases),
+                [entry.get("reason") for entry in entries],
+            )
+            serialized = sandbox.log_path.read_text(encoding="utf-8").lower()
+            for rule in keywords + phrases:
+                self.assertNotIn(rule.lower(), serialized, rule)
+
+    def test_logging_can_be_disabled_without_disabling_reactions(self):
+        with RuntimeSandbox(config_overrides={"log": False}) as sandbox:
+            output = sandbox.run_main(
+                reaction,
+                {"session_id": "no-log", "turn_id": "1", "prompt": "send me a meme"},
+            )
+            self.assertTrue(output)
+            self.assertFalse(sandbox.log_path.exists())
+
+    def test_log_rotates_at_size_limit_and_keeps_one_backup(self):
+        with RuntimeSandbox() as sandbox:
+            current_contents = "x" * 128
+            backup_path = sandbox.log_path.with_name(sandbox.log_path.name + ".1")
+            sandbox.log_path.write_text(current_contents, encoding="utf-8")
+            backup_path.write_text("older", encoding="utf-8")
+
+            with mock.patch.object(reaction, "LOG_MAX_BYTES", 64):
+                reaction.log_event(
+                    reaction.load_config(),
+                    "MISS",
+                    session_id="rotate",
+                    turn_id="1",
+                    turn=1,
+                    reason="probability",
+                )
+
+            self.assertEqual(current_contents, backup_path.read_text(encoding="utf-8"))
+            self.assertEqual("MISS", sandbox.read_log()[0]["event"])
 
 
 if __name__ == "__main__":

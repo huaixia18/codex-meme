@@ -59,16 +59,19 @@ If the user did not already provide an asset directory, offer these two choices:
 - Use an existing absolute local directory.
 - With explicit user approval, obtain assets from the independent third-party project [ChineseBQB](https://github.com/zhaoolee/ChineseBQB).
 
-For the ChineseBQB option, explain that its repository and images are not covered by the Codex Meme license, ask the user to approve an absolute destination outside the Codex Meme install directory, and only then clone or download from the canonical URL `https://github.com/zhaoolee/ChineseBQB`. Treat the resulting directory as external user-selected assets. Because its images may be nested, ask separately for permission before recursive enumeration. Do not silently fall back to another source, and do not perform any network request if the user selects an existing local directory.
+For the ChineseBQB option, explain that its repository and images are not covered by the Codex Meme license, ask the user to approve an absolute destination outside the Codex Meme install directory, and only then clone or download from the canonical URL `https://github.com/zhaoolee/ChineseBQB`. Treat the resulting directory as an external source from which the user may select assets, not as a collection that should be added to the manifest in full. Never add the whole repository by default. Because its images may be nested, ask separately for permission before recursive enumeration. Do not silently fall back to another source, and do not perform any network request if the user selects an existing local directory.
 
 1. Enumerate only that directory. Default to non-recursive enumeration; recurse only with explicit user permission.
-2. Accept `.png`, `.jpg`, `.jpeg`, `.gif`, and `.webp` files.
-3. Require at least 3 selected files. If fewer exist, stop before modifying Codex configuration.
-4. Use descriptive filename stems as labels when they are meaningful.
-5. If filenames are opaque, inspect images in batches of at most 30, propose concise labels, and ask the user to confirm the manifest summary before writing it.
-6. Assign stable unique IDs, preserve absolute paths, normalize stored paths to forward slashes, and set `enabled: true`.
-7. Add short tags only when useful. Tags are metadata and are not required by the runtime selector.
-8. Inform the user when fewer than 3 enabled GIFs exist: normal reactions will work, but directed GIF requests will not.
+2. Ask the user to select or confirm the exact files to include. Never write every file from a downloaded collection to `manifest.json` by default.
+3. Accept `.png`, `.jpg`, `.jpeg`, `.gif`, and `.webp` files.
+4. Require at least 3 selected files. If fewer exist, stop before modifying Codex configuration.
+5. Use descriptive filename stems as labels when they are meaningful.
+6. If filenames are opaque, inspect images in batches of at most 30, propose concise labels, and ask the user to confirm the manifest summary before writing it.
+7. Normalize each label to one line by collapsing whitespace and removing control characters. Labels must contain 1 to 80 characters after normalization.
+8. Assign stable unique IDs matching `[A-Za-z0-9_-]{1,64}`. Do not silently rewrite an invalid ID into a different value.
+9. Preserve absolute paths, normalize stored paths to forward slashes, and set `enabled: true`.
+10. Add short tags only when useful. Tags are metadata and are not required by the runtime selector.
+11. Inform the user when fewer than 3 enabled GIFs exist: normal reactions will work, but directed GIF requests will not.
 
 The resulting `manifest.json` is an explicit whitelist. The runtime must never replace it with directory scanning.
 
@@ -111,7 +114,7 @@ Never alter unrelated handlers, including `SubagentStart` handlers.
 
 1. Compile all three installed Python files.
 2. Parse installed `reaction.json`, `manifest.json`, and the merged hooks file as JSON.
-3. Confirm every enabled manifest path exists, is inside an allowed root, has an allowed extension, and has a unique ID and path.
+3. Confirm every enabled manifest path exists, is inside an allowed root, has an allowed extension, and has a unique ID and path. Confirm IDs match `[A-Za-z0-9_-]{1,64}` and normalized labels contain 1 to 80 characters.
 4. Confirm at least 3 valid assets load through `reaction.load_assets()`.
 5. Feed a temporary `SessionStart` startup event to the installed `session_start.py` and verify it emits valid JSON with `hookEventName: SessionStart`.
 6. Feed a direct request such as `send me a meme` to `reaction.py` using a disposable session ID and verify it emits a `UserPromptSubmit` candidate signal.

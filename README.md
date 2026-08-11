@@ -29,7 +29,7 @@ GIF 定向点播：“来张动图”等请求只会从启用的 GIF 素材中�
 - “有别的吗”“another one”等追图表达只在上一轮确实显示图片后生效。
 - “来个动图”“send me a GIF”等请求只从 GIF 素材中选择。
 - 严肃话题、禁图要求、严格 JSON、代码或补丁输出会在本地直接拦截。
-- Stop Hook 会记录使用、拒绝以及候选外图片等异常情况。
+- Stop Hook 会检查使用、拒绝以及候选外图片等情况，并更新连续追图状态；可选日志可以保留这些诊断事件。
 
 ## 它不会做什么
 
@@ -66,13 +66,17 @@ Stop               检查本轮是否使用了合法候选并更新连续追图�
 
 ## 素材要求
 
-没有现成素材库时，可以把 [ChineseBQB](https://github.com/zhaoolee/ChineseBQB) 作为可选来源交给安装 Agent。下载只发生在安装阶段，必须由你确认保存位置；下载后的目录仍是 Codex Meme 之外的外部素材目录。
+没有现成素材库时，可以把 [ChineseBQB](https://github.com/zhaoolee/ChineseBQB) 作为可选来源交给安装 Agent。该仓库包含大量图片，完整下载可能占用较多时间和磁盘空间，通常不需要把全部素材加入 manifest，建议只选择实际需要的子目录或图片。下载只发生在安装阶段，必须由你确认保存位置；下载后的目录仍是 Codex Meme 之外的外部素材目录。
 
 - 至少 3 张有效素材。
 - 支持 `.png`、`.jpg`、`.jpeg`、`.gif`、`.webp`。
 - GIF 定向点播需要至少 3 张启用的 GIF。
 - 每张图片需要唯一 `id`、绝对路径和简短 `label`。
+- `id` 只能使用 ASCII 字母、数字、短横线和下划线，长度为 1–64 个字符。
+- `label` 建议保持单行且不超过 80 个字符；运行时会折叠空白、移除控制字符并截断超长内容，清理后为空的条目不会加载。
 - 素材版权由用户自行负责；ChineseBQB 是独立的第三方项目，其仓库及图片不受 Codex Meme 的 MIT License 覆盖。
+
+建议让安装 Agent 生成并验证 manifest。如果手动编辑，请遵守上述 `id` 和 `label` 格式。
 
 manifest 示例见 [`templates/manifest.example.json`](templates/manifest.example.json)。
 
@@ -83,8 +87,16 @@ manifest 示例见 [`templates/manifest.example.json`](templates/manifest.exampl
 | `probability` | `0.20` | 普通、非冷却回合提供候选的概率 |
 | `cooldown_turns` | `5` | 命中后的普通回合冷却 |
 | `warmup_turns` | `2` | 新会话前两轮不随机触发 |
-| `log` | `true` | 只记录本地事件元数据，不记录提示词正文 |
+| `log` | `true` | 可选的本地诊断日志，默认开启 |
 | `max_sessions` | `40` | 本地状态最多保留的会话数 |
+
+## 本地日志
+
+Codex Meme 默认把可选诊断日志写入 `~/.codex/hooks/codex-meme/reaction.log`，用于排查预热、冷却、概率跳过、候选提供、使用、拒绝和运行错误。日志不参与选图、冷却或连续追图。
+
+日志只记录时间、事件类型、会话与回合标识、候选 ID 和概括性的触发或跳过原因，不保存完整提示词、助手回复正文或图片内容，也不会上传。把 `~/.codex/hooks/codex-meme/reaction.json` 中的 `"log"` 改为 `false` 即可关闭；关闭或删除日志不会影响核心功能，后续需要时可以重新开启。
+
+当前日志达到约 2 MiB 后会轮转为 `reaction.log.1`，只保留一份旧日志。
 
 ## 调整触发频率
 

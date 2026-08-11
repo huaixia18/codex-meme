@@ -29,7 +29,7 @@ Directed GIF request: requests such as “send me a GIF” draw only from enable
 - Follow-ups such as “another one” work only after an image was actually shown.
 - GIF requests only draw from enabled GIF assets.
 - Serious topics, no-image requests, and strict JSON/code/patch formats are blocked locally.
-- The Stop hook records legal use, declines, and use of assets outside the current offer.
+- The Stop hook audits use, declines, and assets outside the current offer while updating follow-up state; optional logs can retain these diagnostic events.
 
 ## What it does not do
 
@@ -66,13 +66,17 @@ Official reference: [OpenAI Codex Hooks](https://developers.openai.com/codex/hoo
 
 ## Asset requirements
 
-If you do not already have a collection, [ChineseBQB](https://github.com/zhaoolee/ChineseBQB) is an optional source that the installation agent can use. Downloading happens only during installation and only after you approve the destination. The downloaded directory remains external to Codex Meme.
+If you do not already have a collection, [ChineseBQB](https://github.com/zhaoolee/ChineseBQB) is an optional source that the installation agent can use. It contains a large number of images, so a complete download may require substantial time and disk space. You normally do not need to add the whole collection to the manifest; select only the subdirectories or images you actually want. Downloading happens only during installation and only after you approve the destination. The downloaded directory remains external to Codex Meme.
 
 - At least 3 valid assets.
 - Supported extensions: `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`.
 - Directed GIF requests require at least 3 enabled GIF files.
 - Every item needs a unique `id`, absolute path, and concise `label`.
+- `id` may contain only ASCII letters, digits, hyphens, and underscores, with a length of 1–64 characters.
+- Keep `label` on one line and at most 80 characters when possible. At runtime, whitespace is collapsed, control characters are removed, and longer labels are truncated; an entry whose cleaned label is empty is not loaded.
 - Users are responsible for asset rights. ChineseBQB is an independent third-party project; its repository and images are not covered by the Codex Meme MIT License.
+
+Let the installation agent generate and validate the manifest when possible. Follow the `id` and `label` rules above when editing it manually.
 
 See [`templates/manifest.example.json`](templates/manifest.example.json).
 
@@ -83,8 +87,16 @@ See [`templates/manifest.example.json`](templates/manifest.example.json).
 | `probability` | `0.20` | Offer probability on eligible normal turns |
 | `cooldown_turns` | `5` | Normal-turn cooldown after an offer |
 | `warmup_turns` | `2` | No random offers on the first two turns |
-| `log` | `true` | Local event metadata only; prompt text is not logged |
+| `log` | `true` | Optional local diagnostic log, enabled by default |
 | `max_sessions` | `40` | Maximum session states retained locally |
+
+## Local logs
+
+Codex Meme writes optional diagnostic events to `~/.codex/hooks/codex-meme/reaction.log` by default. They help explain warmup, cooldown, probability misses, candidate offers, use, declines, and runtime errors. Logging does not participate in selection, cooldown, or follow-up behavior.
+
+The log contains timestamps, event types, session and turn identifiers, candidate IDs, and general trigger or skip reasons. It does not store complete prompts, assistant response text, or image contents, and it is never uploaded. Set `"log"` to `false` in `~/.codex/hooks/codex-meme/reaction.json` to disable it. Disabling or deleting the log does not affect core behavior, and logging can be enabled again later.
+
+When the current log reaches approximately 2 MiB, it rotates to `reaction.log.1`. Only one previous log is retained.
 
 ## Adjusting the reaction frequency
 
