@@ -99,7 +99,7 @@ Configure `reaction.json` like this:
 }
 ```
 
-This fork's [`remote-manifest.json`](remote-manifest.json) curates seven programmer memes from ChineseBQB and pins every asset URL to a verified upstream commit. The images remain hosted by the independent ChineseBQB project and are not covered by the Codex Meme MIT License.
+This fork's [`remote-manifest.json`](remote-manifest.json) curates 30 memes across several ChineseBQB categories, including 13 GIFs, and pins every asset URL to a verified upstream commit. The images remain hosted by the independent ChineseBQB project and are not covered by the Codex Meme MIT License.
 
 Every remote item requires an `id`, HTTPS `url`, lowercase 64-character `sha256`, `label`, and `enabled`. The manifest, images, and final redirect targets must use exact `allowed_hosts`. IP literals, private destinations, non-HTTPS URLs, oversized responses, mismatched content types, and hash failures are rejected. See [`templates/remote-manifest.example.json`](templates/remote-manifest.example.json) for the full shape; its domains and hashes are placeholders that must be replaced.
 

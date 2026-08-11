@@ -49,6 +49,167 @@
       "sha256": "363cbad36bbbadea1376a6e99e8d18e91d9fc8c169ab38e76d8d0a91dd183697",
       "label": "别跑，回来把代码写完 / finish the code",
       "enabled": true
+    },
+    {
+      "id": "cn-bqb-hamster-pan",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/006Hamster_%E4%BB%93%E9%BC%A0%F0%9F%90%B9BQB/%E4%BB%93%E9%BC%A000001-%E7%94%AD%E7%AE%A1%E4%BB%80%E4%B9%88%E4%B8%9C%E8%A5%BF-%E7%9B%98%E4%BB%96.gif",
+      "sha256": "83a576317bd8fe59913832cac9ae3decba4150b5070af32126ffeacea3e76a0e",
+      "label": "甭管什么东西，盘它 / just do it",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-hamster-yay",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/006Hamster_%E4%BB%93%E9%BC%A0%F0%9F%90%B9BQB/%E4%BB%93%E9%BC%A000003-%E8%80%B6.png",
+      "sha256": "4224a2b6cf740c707ada5da4c12fc1594d2d736a4e25c9b4b0678e1e335cef70",
+      "label": "耶 / yay",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-duck-crash",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/008HappyDuck_%E5%BC%80%E5%BF%83%E9%B8%AD%F0%9F%90%A5BQB/%E5%BC%80%E5%BF%83%E9%B8%AD0000013-%E7%BF%BB%E8%BD%A6%E4%BA%86%E9%B8%AD.gif",
+      "sha256": "b2a597f9685c036946e4c54a0c7db8d2357d74d60ee8e3180665997ceb1b5816",
+      "label": "翻车了鸭 / that backfired",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-duck-no-energy",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/008HappyDuck_%E5%BC%80%E5%BF%83%E9%B8%AD%F0%9F%90%A5BQB/%E5%BC%80%E5%BF%83%E9%B8%AD00001-%E4%BB%8A%E5%A4%A9%E4%B8%8D%E6%83%B3%E5%8A%A0%E6%B2%B9%E9%B8%AD.jpg",
+      "sha256": "1f052d47d7732f7ef5aee662b4c8081d3408dd7ea9a01ce39d0e702d3e81c6aa",
+      "label": "今天不想加油鸭 / not feeling motivated",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-duck-happy",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/008HappyDuck_%E5%BC%80%E5%BF%83%E9%B8%AD%F0%9F%90%A5BQB/%E5%BC%80%E5%BF%83%E9%B8%AD00002-%E4%BB%8A%E5%A4%A9%E4%B9%9F%E8%A6%81%E5%BC%80%E5%BF%83%E9%B8%AD.gif",
+      "sha256": "378c5133d03fdef22e3e0290bfea84e18b29b16a87e61fae8b565436e59bd689",
+      "label": "今天也要开心鸭 / stay happy",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-duck-full",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/008HappyDuck_%E5%BC%80%E5%BF%83%E9%B8%AD%F0%9F%90%A5BQB/%E5%BC%80%E5%BF%83%E9%B8%AD00003-%E5%90%83%E5%A4%AA%E6%92%91%E4%BA%86%E9%B8%AD.gif",
+      "sha256": "8501d3018eb5c9e6cdd0dba4505c19e9bbca18dc68fd3a26ce1fb0c398dc433d",
+      "label": "吃太撑了鸭 / too full",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-duck-off-work",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/008HappyDuck_%E5%BC%80%E5%BF%83%E9%B8%AD%F0%9F%90%A5BQB/%E5%BC%80%E5%BF%83%E9%B8%AD00007-%E5%88%9A%E4%B8%8B%E7%8F%AD%E9%B8%AD.gif",
+      "sha256": "daadf8ef1649edfb021bdcb77bb44ab2cc8698a43d7454c68e174da19744ab6d",
+      "label": "刚下班鸭 / just finished work",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-duck-sorry",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/008HappyDuck_%E5%BC%80%E5%BF%83%E9%B8%AD%F0%9F%90%A5BQB/%E5%BC%80%E5%BF%83%E9%B8%AD00010-%E5%AF%B9%E4%B8%8D%E8%B5%B7%E9%B8%AD.jpg",
+      "sha256": "b5b87355849af4907c370509b6318f178548e654f9347140dc9d153949366559",
+      "label": "对不起鸭 / sorry",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-duck-go",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/008HappyDuck_%E5%BC%80%E5%BF%83%E9%B8%AD%F0%9F%90%A5BQB/%E5%BC%80%E5%BF%83%E9%B8%AD00012-%E5%86%B2%E9%B8%AD.jpg",
+      "sha256": "9e947de696654a2c104b7757b2656f14f338af68f31ad207e0d9a2db0499d6b6",
+      "label": "冲鸭 / let's go",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-panda-cry",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/015Golden_Curator_Panda%E9%87%91%E9%A6%86%E9%95%BF%E7%86%8A%E7%8C%AB%F0%9F%90%BCBQB/%E9%87%91%E9%A6%86%E9%95%BF%E7%86%8A%E7%8C%AB00024-%E6%8D%82%E4%BD%8F%E5%98%B4%E5%93%AD.jpg",
+      "sha256": "ec924bafbabf7027f4a43c15b05438ed0bd7688ec609448b957602fef1397a81",
+      "label": "捂住嘴哭 / holding back tears",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-panda-speechless",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/015Golden_Curator_Panda%E9%87%91%E9%A6%86%E9%95%BF%E7%86%8A%E7%8C%AB%F0%9F%90%BCBQB/%E9%87%91%E9%A6%86%E9%95%BF%E7%86%8A%E7%8C%AB00041-%E6%97%A0%E8%AF%AD.jpg",
+      "sha256": "4f6f0409f54ada1bdc180cb0007f6c8bae16920d12f6b5d55fc374254de1e3be",
+      "label": "无语 / speechless",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-panda-happy",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/015Golden_Curator_Panda%E9%87%91%E9%A6%86%E9%95%BF%E7%86%8A%E7%8C%AB%F0%9F%90%BCBQB/%E9%87%91%E9%A6%86%E9%95%BF%E7%86%8A%E7%8C%AB00138-%E6%88%91%E5%BE%88%E5%BC%80%E5%BF%83%E5%95%8A.gif",
+      "sha256": "b3f8c19a5b80b8e688ff32dc377e09fead31a29cde9eec57031109a963e71b28",
+      "label": "我很开心啊 / very happy",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-panda-impressive",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/015Golden_Curator_Panda%E9%87%91%E9%A6%86%E9%95%BF%E7%86%8A%E7%8C%AB%F0%9F%90%BCBQB/%E9%87%91%E9%A6%86%E9%95%BF%E7%86%8A%E7%8C%AB00291-%E8%BF%99%E4%B9%88%E5%8E%89%E5%AE%B3%E5%95%8A%E8%A6%81%E4%B8%8D%E8%A6%81%E5%9C%A8%E6%9D%91%E5%8F%A3%E6%91%86%E5%87%A0%E6%A1%8C.png",
+      "sha256": "45c16474a5e36257ae701889bfcb3e9707e90cb0861767db15bd6b6c2e383082",
+      "label": "这么厉害啊 / impressive",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-penguin-confused",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/031Penguin_%E6%B2%99%E9%9B%95%E4%BC%81%E9%B9%85%F0%9F%90%A7BQB/000000031.gif",
+      "sha256": "58ff7c5a9d6c8bf0d0f0613e8fdb1fd10100a6a8ecaa72cdb0a3553b2d39406f",
+      "label": "疑惑围观 / confused",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-penguin-curious",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/031Penguin_%E6%B2%99%E9%9B%95%E4%BC%81%E9%B9%85%F0%9F%90%A7BQB/Penguin00020.gif",
+      "sha256": "4a4e063a16026e5704ec36d228c1b27d8e002263e5ceda8250eb32aa28a1334b",
+      "label": "好奇研究 / curious",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-penguin-tap",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/031Penguin_%E6%B2%99%E9%9B%95%E4%BC%81%E9%B9%85%F0%9F%90%A7BQB/Penguin00050.gif",
+      "sha256": "ed30dcc58775962cc96036ee14f3c00cca1e266d9ad13c17923e2e5850fca683",
+      "label": "用力拍一拍 / pat pat",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-penguin-scratch",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/031Penguin_%E6%B2%99%E9%9B%95%E4%BC%81%E9%B9%85%F0%9F%90%A7BQB/%E6%8C%A0%E5%A4%B4.gif",
+      "sha256": "cf5a94b6ada36f916ebe5158b72950a4ef9a88b7f8049ff89a6ab9e588ca52e1",
+      "label": "挠头 / puzzled",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-spongebob-repay",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/048SpongeBob_%E6%B5%B7%E7%BB%B5%E5%AE%9D%E5%AE%9DBQB/%E6%B5%B7%E7%BB%B5%E5%AE%9D%E5%AE%9D00005-%E6%82%A8%E5%A5%BD%E6%88%91%E6%9D%A5%E8%BF%98%E9%92%B1%E4%BA%86.jpg",
+      "sha256": "f94a321666bb571ae1dfe7021328d34ac8dfe5be443529c9aaadc52832fd1022",
+      "label": "您好，我来还钱了 / paying you back",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-spongebob-wow",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/048SpongeBob_%E6%B5%B7%E7%BB%B5%E5%AE%9D%E5%AE%9DBQB/%E6%B5%B7%E7%BB%B5%E5%AE%9D%E5%AE%9D00013-%E5%93%A6%E5%91%BC.jpg",
+      "sha256": "0c877f05c728264f0bff3025f71a48480e0636d0df5fbe475a96535e5cc14f93",
+      "label": "哦呼 / wow",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-cat-you-know",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/049CatEveryday_%E7%8C%AB%E5%92%AA%E6%97%A5%E5%B8%B8BQB/%E7%8C%AB%E5%92%AA%E6%97%A5%E5%B8%B800002-%E4%BD%A0%E7%9F%A5%E9%81%93%E6%88%91%E8%A6%81%E8%AF%B4%E4%BB%80%E4%B9%88%E5%90%A7.JPG",
+      "sha256": "baa5ed2bbf8888159edd7a1294fc0839bc9816828b108bdf82cf74dd52685213",
+      "label": "你知道我要说什么吧 / you know what I mean",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-cat-one-too",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/049CatEveryday_%E7%8C%AB%E5%92%AA%E6%97%A5%E5%B8%B8BQB/%E7%8C%AB%E5%92%AA%E6%97%A5%E5%B8%B800004-%E7%BB%99%E6%88%91%E4%B9%9F%E6%95%B4%E4%B8%80%E4%B8%AA.JPG",
+      "sha256": "22b4959dfe042d4f45e108cb2208f27b716d7d90032fb96a188529f3af3b70e4",
+      "label": "给我也整一个 / get me one too",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-cat-awesome",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/049CatEveryday_%E7%8C%AB%E5%92%AA%E6%97%A5%E5%B8%B8BQB/%E7%8C%AB%E5%92%AA%E6%97%A5%E5%B8%B800005-%E5%A5%A5%E5%88%A9%E7%BB%99.JPG",
+      "sha256": "586c9c8e3c8425fa54d6db8baf58a52f341ae59f1595b5e7fdecd8a9ede11614",
+      "label": "奥利给 / let's go",
+      "enabled": true
+    },
+    {
+      "id": "cn-bqb-cat-four",
+      "url": "https://raw.githubusercontent.com/zhaoolee/ChineseBQB/ffd0e2e826e48aac67e8e6e15807e934a77216f6/049CatEveryday_%E7%8C%AB%E5%92%AA%E6%97%A5%E5%B8%B8BQB/%E7%8C%AB%E5%92%AA%E6%97%A5%E5%B8%B800012-%E7%BB%99%E4%BD%A0%E6%95%B4%E6%9D%A5%E4%BA%86%E5%9B%9B%E4%B8%AA.JPG",
+      "sha256": "3fb9771b06d0a9b1dc1c29fc23ced9447f06b5d81169606eba4bc96b0af40419",
+      "label": "给你整来了四个 / brought you four",
+      "enabled": true
     }
   ]
 }
