@@ -19,9 +19,9 @@ Codex Meme is a fully local community project built from three Codex hooks: `Ses
 
 ## What it does not do
 
-- It does not generate, download, or bundle meme assets.
+- The runtime does not generate or download images, and this repository bundles no meme assets.
 - It does not upload prompts, images, logs, or analytics.
-- It has no network service, MCP server, account, or external API.
+- The runtime uses no network service, MCP server, account, or external API.
 - It never creates, reads, or modifies `AGENTS.md`.
 - It never scans asset directories at runtime. Only explicit `manifest.json` entries are eligible.
 
@@ -45,17 +45,19 @@ Preserve every existing hook and do not create or modify any AGENTS.md file.
 Back up affected files before editing, run the verification steps, and report the backup and rollback paths.
 ```
 
-The agent will ask for a local asset directory, create an explicit manifest, and merge the three handlers into the user-level `~/.codex/hooks.json`. Codex requires the user to review and trust new or changed hook definitions. The agent must never fabricate hook trust records.
+The agent will ask whether to use an existing local asset directory or, with your explicit approval, obtain assets from [ChineseBQB](https://github.com/zhaoolee/ChineseBQB). It then inspects only the directory you approve, creates an explicit manifest, and merges the three handlers into the user-level `~/.codex/hooks.json`. Codex requires the user to review and trust new or changed hook definitions. The agent must never fabricate hook trust records.
 
 Official reference: [OpenAI Codex Hooks](https://developers.openai.com/codex/hooks)
 
 ## Asset requirements
 
+If you do not already have a collection, [ChineseBQB](https://github.com/zhaoolee/ChineseBQB) is an optional source that the installation agent can use. Downloading happens only during installation and only after you approve the destination. The downloaded directory remains external to Codex Meme.
+
 - At least 3 valid assets.
 - Supported extensions: `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`.
 - Directed GIF requests require at least 3 enabled GIF files.
 - Every item needs a unique `id`, absolute path, and concise `label`.
-- Users are responsible for asset rights. This repository contains no images.
+- Users are responsible for asset rights. ChineseBQB is an independent third-party project; its repository and images are not covered by the Codex Meme MIT License.
 
 See [`templates/manifest.example.json`](templates/manifest.example.json).
 

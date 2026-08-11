@@ -11,7 +11,7 @@ This is the normative installation specification. Follow it exactly when the use
 3. Preserve every unrelated hook and configuration entry.
 4. Back up affected files before the first write and before every update.
 5. Never scan a directory the user did not explicitly select.
-6. Never copy, upload, publish, or modify the user's external meme assets.
+6. Never download or clone an asset source unless the user explicitly chooses it and approves the destination. Never upload, publish, or modify external meme assets.
 7. Never fabricate a Codex hook trust hash. The user must review and trust hooks through Codex.
 8. Use JSON parsing and serialization. Do not merge `hooks.json` with textual search-and-replace.
 
@@ -54,7 +54,12 @@ py -3 -m unittest discover -s tests -v
 
 ## 2. Obtain and curate assets
 
-If the user did not already provide an asset directory, ask for one absolute local directory.
+If the user did not already provide an asset directory, offer these two choices:
+
+- Use an existing absolute local directory.
+- With explicit user approval, obtain assets from the independent third-party project [ChineseBQB](https://github.com/zhaoolee/ChineseBQB).
+
+For the ChineseBQB option, explain that its repository and images are not covered by the Codex Meme license, ask the user to approve an absolute destination outside the Codex Meme install directory, and only then clone or download from the canonical URL `https://github.com/zhaoolee/ChineseBQB`. Treat the resulting directory as external user-selected assets. Because its images may be nested, ask separately for permission before recursive enumeration. Do not silently fall back to another source, and do not perform any network request if the user selects an existing local directory.
 
 1. Enumerate only that directory. Default to non-recursive enumeration; recurse only with explicit user permission.
 2. Accept `.png`, `.jpg`, `.jpeg`, `.gif`, and `.webp` files.

@@ -19,9 +19,9 @@ Codex Meme 是一个完全本地运行的社区项目。它通过 `SessionStart`
 
 ## 它不会做什么
 
-- 不生成图片，也不提供或下载表情包素材。
+- 运行时不生成或下载图片；本仓库不捆绑任何表情包素材。
 - 不上传提示词、图片、日志或统计数据。
-- 不使用网络、MCP、服务器或第三方 API。
+- Hook 运行时不使用网络、MCP、服务器或第三方 API。
 - 不创建、读取或修改任何 `AGENTS.md`。
 - 不在运行时扫描素材目录；只有 `manifest.json` 中明确列出的图片能够成为候选。
 
@@ -45,17 +45,19 @@ Stop               检查本轮是否使用了合法候选并更新连续追图�
 修改前先备份，完成后运行验证并告诉我备份和回滚位置。
 ```
 
-安装 Agent 会询问你的本地表情包目录，为图片建立显式 manifest，然后把三段 Hook 合并到用户级 `~/.codex/hooks.json`。安装或修改 Hook 后，Codex 会要求你审查并信任新的 Hook 定义；不要让 Agent 手工伪造信任记录。
+安装 Agent 会询问你使用已有的本地表情包目录，还是在你明确同意后从 [ChineseBQB](https://github.com/zhaoolee/ChineseBQB) 获取素材。随后，它只会检查你确认的目录，为图片建立显式 manifest，并把三段 Hook 合并到用户级 `~/.codex/hooks.json`。安装或修改 Hook 后，Codex 会要求你审查并信任新的 Hook 定义；不要让 Agent 手工伪造信任记录。
 
 官方 Hook 说明：[OpenAI Codex Hooks](https://developers.openai.com/codex/hooks)
 
 ## 素材要求
 
+没有现成素材库时，可以把 [ChineseBQB](https://github.com/zhaoolee/ChineseBQB) 作为可选来源交给安装 Agent。下载只发生在安装阶段，必须由你确认保存位置；下载后的目录仍是 Codex Meme 之外的外部素材目录。
+
 - 至少 3 张有效素材。
 - 支持 `.png`、`.jpg`、`.jpeg`、`.gif`、`.webp`。
 - GIF 定向点播需要至少 3 张启用的 GIF。
 - 每张图片需要唯一 `id`、绝对路径和简短 `label`。
-- 素材版权由用户自行负责；仓库不包含任何图片。
+- 素材版权由用户自行负责；ChineseBQB 是独立的第三方项目，其仓库及图片不受 Codex Meme 的 MIT License 覆盖。
 
 manifest 示例见 [`templates/manifest.example.json`](templates/manifest.example.json)。
 
