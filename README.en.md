@@ -8,6 +8,20 @@ Codex Meme is a fully local community project built from three Codex hooks: `Ses
 
 > Current release: `v0.1-alpha` · Windows · Codex Desktop · Python 3.10+
 
+## Demo
+
+Natural reaction: after completing the normal answer, Codex may use one local candidate when the moment is appropriate and casual.
+
+![Codex Meme natural reaction demo](docs/images/demo-natural-reaction.jpg)
+
+Rhetorical direct request: expressions such as “Why not add a meme?” are recognized too.
+
+![Codex Meme rhetorical request demo](docs/images/demo-direct-request.jpg)
+
+Directed GIF request: requests such as “send me a GIF” draw only from enabled GIF assets.
+
+![Codex Meme directed GIF request demo](docs/images/demo-gif-request.webp)
+
 ## What it does
 
 - Randomly offers 3 candidates after warmup, cooldown, and probability checks.
@@ -19,7 +33,7 @@ Codex Meme is a fully local community project built from three Codex hooks: `Ses
 
 ## What it does not do
 
-- The runtime does not generate or download images, and this repository bundles no meme assets.
+- The runtime does not generate or download images, and this repository bundles no meme assets for hook use.
 - It does not upload prompts, images, logs, or analytics.
 - The runtime uses no network service, MCP server, account, or external API.
 - It never creates, reads, or modifies `AGENTS.md`.
@@ -92,6 +106,6 @@ Thanks to the LinuxDo community for helping me so much in learning about AI.
 
 ## License and status
 
-Code is licensed under the [MIT License](LICENSE). User-provided assets are not covered by this license.
+Code is licensed under the [MIT License](LICENSE). User-provided assets are not covered by this license. README screenshots are included only to demonstrate behavior; the captured interface and third-party images are not licensed under the Codex Meme MIT License.
 
 Codex Meme is an unofficial community project and is not affiliated with or endorsed by OpenAI.

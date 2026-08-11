@@ -8,6 +8,20 @@ Codex Meme 是一个完全本地运行的社区项目。它通过 `SessionStart`
 
 > 当前版本：`v0.1-alpha` · Windows · Codex Desktop · Python 3.10+
 
+## 效果演示
+
+自然触发：Codex 正常完成回答后，可以在合适的轻松场景使用一张本地候选。
+
+![Codex Meme 自然触发演示](docs/images/demo-natural-reaction.jpg)
+
+反问式点播：“不来个表情包吗？”这类表达也能被识别。
+
+![Codex Meme 反问式点播演示](docs/images/demo-direct-request.jpg)
+
+GIF 定向点播：“来张动图”等请求只会从启用的 GIF 素材中选择。
+
+![Codex Meme GIF 定向点播演示](docs/images/demo-gif-request.webp)
+
 ## 它会做什么
 
 - 普通对话经过预热、冷却和概率判断后，随机提供 3 张候选。
@@ -19,7 +33,7 @@ Codex Meme 是一个完全本地运行的社区项目。它通过 `SessionStart`
 
 ## 它不会做什么
 
-- 运行时不生成或下载图片；本仓库不捆绑任何表情包素材。
+- 运行时不生成或下载图片；本仓库不捆绑任何可供 Hook 使用的表情包素材。
 - 不上传提示词、图片、日志或统计数据。
 - Hook 运行时不使用网络、MCP、服务器或第三方 API。
 - 不创建、读取或修改任何 `AGENTS.md`。
@@ -92,6 +106,6 @@ py -3 -m unittest discover -s tests -v
 
 ## 许可与声明
 
-代码使用 [MIT License](LICENSE)。用户素材不受本项目许可证覆盖。
+代码使用 [MIT License](LICENSE)。用户素材不受本项目许可证覆盖。README 演示截图仅用于功能展示；截图界面及其中的第三方图片不在本项目 MIT License 的授权范围内。
 
 Codex Meme 是非官方社区项目，与 OpenAI 没有隶属或背书关系。
